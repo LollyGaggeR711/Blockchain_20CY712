@@ -1,0 +1,331 @@
+<!-- 
+Author       : Gnanendra Prasad
+Referred By  : Ramaguru Radhakrishnan
+Date Created : December - 2021
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vaathi DAPP</title>
+    <meta charset="UTF-8"/>
+	<style>
+	body{        
+        padding-top: 50px;
+        padding-bottom: 30px;
+    }
+	.container{
+        width: 80%;
+        margin: 0 auto; 
+    }
+	.fixed-header, .fixed-footer{
+        width: 100%;
+        position: fixed;        
+        background: #f96B00;
+        padding: 10px 0;
+        color:#000000;
+    }
+	.fixed-header{
+        top: 0;
+    }
+    .fixed-footer{
+        bottom: 0;
+    } 
+	.container p{
+		padding-top: 90px;
+        line-height: 20px;
+    }
+	
+	</style>
+</head>
+<body style="background-color:#28282B;">
+	<div class="fixed-header">
+		<div class="container">
+		<center>
+			<h2> Vaathi DAPP </h2>
+		</center>
+		</div>
+	</div>
+        
+	<div class="container">	
+	<p>
+		<b style="color:white"> Teacher Management Decentralized Application</b><br/><br/>
+		<form>
+			<table>
+			 <tr><td style="color:white"> Teacher Name: </td> <td> <input type="text" id="t_name" name="t_name"> </td></tr>
+			 <tr><td style="color:white"> Teacher ID: </td> <td> <input type="number" id="tid" name="tid"> </td></tr>
+			 <tr><td style="color:white"> Department: </td> <td> <input type="text" id="dept" name="dept"> </td></tr>
+			 <tr><td style="color:white"> Designation: </td> <td> <input type="text" id="desig" name="desig"> </td></tr>
+			 <tr><td style="color:white"> Qualification: </td> <td> <input type="text" id="qual" name="qual"> </td></tr>
+			 <tr><td style="color:white"> Date of Joining: </td> <td> <input type="text" id="doj" name="doj"> </td></tr>
+			 <tr><td style="color:white"> Salary: </td> <td> <input type="number" id="salary" name="salary"> </td></tr>
+			 <tr><td style="color:white"> Years of Experience: </td> <td> <input type="number" id="exp" name="exp"> </td></tr>
+			 <tr><td style="color:white"> Marital Status: </td> <td> <input type="text" id="m_status" name="m_status"> </td></tr>
+			 <tr><td style="color:white"> House Address: </td> <td> <input type="text" id="addr" name="addr"> </td></tr>
+			 <tr><td style="color:white"> Contact Number: </td> <td> <input type="number" id="p_no" name="p_no"> </td></tr>
+			 <tr> <td> <input type="button" onclick="stored()" value="add"> </td></tr>
+			</table>
+			
+			<h4 style="color:white"> Transaction ID: <a href="https://ropsten.etherscan.io/"><div id="result"></div></a> </h4>
+			
+		</form>
+		<br/><br/>
+	</p>	
+	</div>
+
+	
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha3/0.8.0/sha3.js"></script>
+    <script>	
+	
+	var account;
+	// Importing web3.js in line 68
+
+	// when the window loads below snippet gets executed and checks metamask.
+	window.addEventListener('load', async () => {
+
+	
+		if (typeof window.ethereum !== 'undefined') { 
+			console.log("MetaMask is Available :) !"); 
+			}
+			
+		// Modern DApp browsers
+		if (window.ethereum) {
+			window.web3 = new Web3(ethereum);
+			
+			// To prevent the page reloading when the MetaMask network changes
+			ethereum.autoRefreshOnNetworkChange = false;
+			
+			// To Capture the account details from MetaMask (metamask login pop-up)
+			const accounts = await ethereum.enable();
+			account = accounts[0];
+			
+			}
+			// Legacy DApp browsers
+			else if (window.web3) {
+				//window.web3 = new Web3(web3.currentProvider);
+				window.web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/cbd9dc11b30147e9a2cc974be655ef7c")); 
+				}
+			// Non-DApp browsers
+			else {
+				console.log('Non-Ethereum browser detected. Please install MetaMask');
+				}
+			
+			});
+			
+			// Smart Contract ABI - Application Binary Interfaces
+			var abi = [
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "ShowDemo",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "View_Details",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_t_name",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_tid",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_dept",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_desig",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_qual",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_doj",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_salary",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_exp",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_m_status",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_addr",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_p_no",
+				"type": "uint256"
+			}
+		],
+		"name": "save",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]
+			
+			//Smart Contract Address
+			var contractaddress = '0x25aD5dcAf4D6fd7a836A8Ce102395F1c040Ff728';
+
+			// Function to call the "Anonymize Day" in Deployed Smart Contract
+			function stored(){
+					
+				console.log("Issue NamChain Birthday Anonymizer");
+						
+				//Instantiate and connect to contract address via ABI
+				var myContract = new web3.eth.Contract(abi,contractaddress, {from: account, gasPrice: '5000000', gas: '3000000'});
+								
+			
+				//call the functions defined in smart contract
+				
+				// .send() for sending values i.e. like store function in smart contract and .call() for getting values ie. retrieve function in smart contract.
+		
+				var t_name = document.getElementById("t_name").value;
+				var tid = document.getElementById("tid").value;
+				var dept = document.getElementById("dept").value;
+				var desig = document.getElementById("desig").value;
+				var qual = document.getElementById("qual").value;
+				var doj = document.getElementById("doj").value;
+				var salary = document.getElementById("salary").value;
+				var exp = document.getElementById("exp").value;
+				var m_status = document.getElementById("m_status").value;
+				var addr = document.getElementById("addr").value;
+				var p_no = document.getElementById("p_no").value;
+
+				console.log(t_name);
+				console.log(tid);	
+				console.log(dept);
+				console.log(desig);
+				console.log(qual);
+				console.log(doj);
+				console.log(salary);
+				console.log(exp);
+				console.log(m_status);
+				console.log(addr);
+				console.log(p_no);
+
+
+				var result = myContract.methods.save(t_name, tid, dept, desig, qual, doj, salary, exp, m_status, addr, p_no).send(function (err, result) {
+				
+				if (err) { console.log(err); }
+				if (result) { document.getElementById("result").innerHTML = result; }
+				
+				});
+					
+			}
+			
+			
+						
+    </script>
+	
+	<div class="fixed-footer">
+		<div class="container">
+			<center> <h5> Copyright &copy; 2021-2022 <br/> P. Gnanendra Prasad, Amrita Vishwa Vidyapeetham, Coimbatore, Tamil Nadu, India </h5> </center>
+		</div>
+	</div>
+
+</body>
+</html>
